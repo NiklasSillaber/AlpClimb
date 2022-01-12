@@ -1,0 +1,139 @@
+﻿@model Kletterverein.Models.User
+
+@{
+    ViewData["Title"] = "Registration";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<h1>Registrieren</h1>
+
+@*<form asp-controller="user" asp-action="registration" methode="post">
+    <p>
+        <label asp-for="Firstname">Vorname</label><br />
+        <input type="text" asp-for="Firstname" />
+        <span asp-validation-for="Firstname"></span>
+    </p>
+    <p>
+        <label asp-for="Lastname">Nachname</label><br />
+        <input type="text" asp-for="Lastname" />
+        <span asp-validation-for="Lastname"></span>
+    </p>
+    <p>
+        <label asp-for="Password">Passwort</label><br />
+        <input type="password" asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+
+    </p>
+    <p>
+        <label asp-for="Birthdate">Geburtsdatum</label><br />
+        <input type="date" asp-for="Birthdate" />
+        <span asp-validation-for="Birthdate"></span>
+
+    </p>
+    <p>
+        <label asp-for="EMail">Emailadresse</label><br />
+        <input type="email" asp-for="EMail" />
+        <span asp-validation-for="EMail"></span>
+
+    </p>
+    <p>
+        <label asp-for="Gender">Geschlecht</label><br />
+        <select asp-for="Gender">
+            <option value="0">männlich</option>
+            <option value="1">weiblich</option>
+            <option value="2" selected>nicht angegeben</option>
+        </select>
+        <span asp-validation-for="Gender"></span>
+
+    </p>
+    <input type="submit" value="Absenden" />
+    <input type="reset" value="abbrechen" />
+</form>*@
+
+<div class="form">
+
+    <ul class="tab-group">
+        <li class="tab active"><a href="#signup">Registrieren</a></li>
+        <li class="tab"><a href="#login">Einloggen</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="signup">
+            <h1>Kostenlos registrieren!</h1>
+
+            <form asp-controller="user" asp-action="registration" methode="post">
+
+                <div class="top-row">
+                    <div class="field-wrap">
+                        <label asp-for="Lastname">Nachname<span class="req">*</span></label>
+                        <input type="text" asp-for="Lastname" />
+                        <span asp-validation-for="Lastname"></span>
+                    </div>
+
+                    <div class="field-wrap">
+                        <label asp-for="Firstname">Vorname<span class="req">*</span></label>
+                        <input type="text" asp-for="Firstname" />
+                        <span asp-validation-for="Firstname"></span>
+                    </div>
+                </div>
+
+                <div class="field-wrap">
+                    <label asp-for="Password">Passwort<span class="req">*</span></label>
+                    <input type="password" asp-for="Password" />
+                    <span asp-validation-for="Password"></span>
+                </div>
+
+                <div class="field-wrap">
+                    <label asp-for="Birthdate">Geburtsdatum<span class="req">*</span></label>
+                    <input type="date" asp-for="Birthdate" />
+                    <span asp-validation-for="Birthdate"></span>
+                </div>
+                
+                <div class="field-wrap">
+                    <label asp-for="EMail">Emailadresse<span class="req">*</span></label>
+                    <input type="email" asp-for="EMail" />
+                    <span asp-validation-for="EMail"></span>
+                </div>
+                
+                <div class="field-wrap">
+                    <label asp-for="Gender">Geschlecht<span class="req">*</span></label>
+                    <select asp-for="Gender">
+                        <option value="0">männlich</option>
+                        <option value="1">weiblich</option>
+                        <option value="2" selected>nicht angegeben</option>
+                    </select>
+                    <span asp-validation-for="Gender"></span>
+                </div>
+
+                <button type="submit" class="button button-block">Registrieren</button>
+
+            </form>
+
+        </div>
+
+        <div id="login">
+            <h1>Willkommen zurück!</h1>
+
+            <form asp-controller="user" asp-action="login" methode="post">
+
+                <div class="field-wrap">
+                    <label asp-for="EMail">Emailadresse<span class="req">*</span></label>
+                    <input type="email" asp-for="EMail" />
+                    <span asp-validation-for="EMail"></span>
+                </div>
+
+                <div class="field-wrap">
+                    <label asp-for="Password">Passwort<span class="req">*</span></label><br />
+                    <input type="password" asp-for="Password" />
+                    <span asp-validation-for="Password"></span>
+                </div>
+
+                <button class="button button-block">Einloggen</button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kletterverein", "Kletterverein\Kletterverein.csproj", "{2EDE4AE1-481E-4AE6-A06E-B005C445808C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2EDE4AE1-481E-4AE6-A06E-B005C445808C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EDE4AE1-481E-4AE6-A06E-B005C445808C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EDE4AE1-481E-4AE6-A06E-B005C445808C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EDE4AE1-481E-4AE6-A06E-B005C445808C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {047CB20E-49E1-4266-9D32-CB6A20636FCD}
+	EndGlobalSection
+EndGlobal

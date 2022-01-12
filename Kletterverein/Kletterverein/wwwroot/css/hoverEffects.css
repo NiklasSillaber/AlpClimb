@@ -1,0 +1,48 @@
+﻿ul.sideUl > li a {
+    color: white;
+    margin-bottom: 20px;
+    text-decoration: none;
+}
+
+ul.sideUl > li {
+    margin-bottom: 20px;
+}
+
+ul.sideUl {
+    list-style: none;
+    text-align: center;
+}
+
+ul.sideUl > li a,
+ul.sideUl > li a:after,
+ul.sideUl > li a:before {
+    transition: all .5s;
+}
+
+ul.sideUl > li a:hover {
+   color: #555;
+}
+
+/* aside-menu */
+div.aside ul li a {
+    position: relative;
+}
+
+div.aside ul li a:after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 0%;
+    content: '.';
+    color: transparent;
+    background: #aaa;
+    height: 1px;
+}
+
+div.aside ul li a:hover:after {
+    width: 100%;
+}
+
+

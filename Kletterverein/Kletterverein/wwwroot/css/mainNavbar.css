@@ -1,0 +1,30 @@
+﻿/*Custom Navbar*/
+
+.navbar-dark .navbar-nav .nav-link {
+    color: #ffffff !important;
+    font-size: 120% !important;
+    top: 50% !important;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #0eb3de !important;
+    font-weight: bold;
+    transform: translate(0%, -18%);
+    border-bottom: solid 2px #0eb3de;
+    transition: 0.4s;
+}
+
+.bg-dark {
+    background-color: #161616 !important;
+    height: 100% !important;
+}
+
+.navbar-nav > li {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.navbar-nav {
+    align-items: center;
+    justify-content: center;
+}
