@@ -22,11 +22,6 @@ namespace Kletterverein.Controllers
             return View(user);
         }
 
-        public IActionResult Login()
-        {
-            return View("_Message", new Message("Login", "Sie haben sich erfolgreich eingeloggt!"));
-        }
-
         [HttpGet]
         public IActionResult Registration()
         {
@@ -46,11 +41,10 @@ namespace Kletterverein.Controllers
             }
 
             //Eingabedaten der Registrierung überprüfen - Validierung
-            ValidateRegistraionData(userDataFromForm);
+            ValidateRegistrationData(userDataFromForm);
 
             //unser Formular wurde richtig ausgefüllt
-            if (ModelState.IsValid)
-            {
+            if (ModelState.IsValid) {
                 //TODO: Eingabedaten in einer DB speichern
 
                 //unsere Message View aufrufen
@@ -62,7 +56,33 @@ namespace Kletterverein.Controllers
             return View(userDataFromForm);
         }
 
-        private void ValidateRegistraionData(User u)
+        [HttpPost]
+        public IActionResult Login(User userDataFromForm)
+        {
+            //Parameter überprüfen
+            if (userDataFromForm == null) {
+                //Weiterleitung an eine andere Action/Methode
+                //im selben Controller
+                return RedirectToAction("Login");
+            }
+
+            //Eingabedaten der Registrierung überprüfen - Validierung
+            ValidateLoginData(userDataFromForm);
+
+            //unser Formular wurde richtig ausgefüllt
+            if (ModelState.IsValid) {
+                //TODO: Eingabedaten in DB überprüfen
+
+                //unsere Message View aufrufen
+                return View("_Message", new Message("Login", "Sie haben sich erfolgreich Eingeloggt!"));
+            }
+
+            //Das Formular wurde nicht richtig ausgefüllt
+            //und die bereits eingegebenen Daten sollten wieder angezeigt werden
+            return View(userDataFromForm);
+        }
+
+        private void ValidateRegistrationData(User u)
         {
             //Parameter überprüfen
             if (u == null)
@@ -91,11 +111,33 @@ namespace Kletterverein.Controllers
             //Gender
 
             //Birthdate
-            if (u.Birthdate > DateTime.Now)
-            {
+            if (u.Birthdate > DateTime.Now) {
                 ModelState.AddModelError("Birthdate", "Das Geburtsdatum darf nicht in der Zukunft sein!"); //Feld, Message
             }
+            
             //Email
+            if (u.EMail == null) {
+                ModelState.AddModelError("EMail", "Bitte geben Sie eine Emailadresse ein"); //Feld, Message
+            }
+        }
+
+        private void ValidateLoginData(User u)
+        {
+            //Parameter überprüfen
+            if (u == null) {
+                return;
+            }
+
+            //Passwort
+            if (u.Password == null || (u.Password.Length < 8)) {
+                ModelState.AddModelError("Password", "Das Passwort muss mindestens 8 Zeichen lang sein!"); //Feld, Message
+
+            }
+
+            //Email
+            if (u.EMail == null) {
+                ModelState.AddModelError("EMail", "Bitte geben Sie eine Emailadresse ein"); //Feld, Message
+            }
         }
     }
 }
