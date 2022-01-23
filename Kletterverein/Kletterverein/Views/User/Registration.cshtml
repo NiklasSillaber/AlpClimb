@@ -65,44 +65,44 @@
 
                 <div class="top-row">
                     <div class="field-wrap">
-                        <label asp-for="Lastname">Nachname<span class="req">*</span></label>
+                        <label asp-for="Lastname">Nachname *</label>
                         <input type="text" asp-for="Lastname" />
-                        <span asp-validation-for="Lastname"></span>
+                        <span style="color:red;" asp-validation-for="Lastname"></span>
                     </div>
 
                     <div class="field-wrap">
-                        <label asp-for="Firstname">Vorname<span class="req">*</span></label>
+                        <label asp-for="Firstname">Vorname *</label>
                         <input type="text" asp-for="Firstname" />
-                        <span asp-validation-for="Firstname"></span>
+                        <span style="color:red;" asp-validation-for="Firstname"></span>
                     </div>
                 </div>
 
                 <div class="field-wrap">
-                    <label asp-for="Password">Passwort<span class="req">*</span></label>
+                    <label asp-for="Password">Passwort *</label>
                     <input type="password" asp-for="Password" />
-                    <span asp-validation-for="Password"></span>
+                    <span style="color:red;" asp-validation-for="Password"></span>
                 </div>
 
                 <div class="field-wrap">
-                    <label asp-for="Birthdate">Geburtsdatum<span class="req">*</span></label>
-                    <input type="date" asp-for="Birthdate" />
-                    <span asp-validation-for="Birthdate"></span>
+                    <label class="active" asp-for="Birthdate">Geburtsdatum *</label>
+                    <input name="setTodaysDate" type="date" asp-for="Birthdate" />
+                    <span style="color:red;" asp-validation-for="Birthdate"></span>
                 </div>
-                
+
                 <div class="field-wrap">
-                    <label asp-for="EMail">Emailadresse<span class="req">*</span></label>
+                    <label asp-for="EMail">Emailadresse *</label>
                     <input type="email" asp-for="EMail" />
-                    <span asp-validation-for="EMail"></span>
+                    <span style="color:red;" asp-validation-for="EMail"></span>
                 </div>
-                
+
                 <div class="field-wrap">
-                    <label asp-for="Gender">Geschlecht<span class="req">*</span></label>
-                    <select asp-for="Gender">
+                    <select style="padding: 5px; font-size: 22px; background: rgba(160, 179, 176, .25); color: #0eb3de; " class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" asp-for="Gender">
+                        <option selected>Geschlecht *</option>
                         <option value="0">männlich</option>
                         <option value="1">weiblich</option>
-                        <option value="2" selected>nicht angegeben</option>
+                        <option value="2">nicht angegeben</option>
                     </select>
-                    <span asp-validation-for="Gender"></span>
+                    <span style="color:red;" asp-validation-for="Gender"></span>
                 </div>
 
                 <button type="submit" class="button button-block">Registrieren</button>
@@ -117,15 +117,15 @@
             <form asp-controller="user" asp-action="login" methode="post">
 
                 <div class="field-wrap">
-                    <label asp-for="EMail">Emailadresse<span class="req">*</span></label>
+                    <label asp-for="EMail">Emailadresse *</label>
                     <input type="email" asp-for="EMail" />
-                    <span asp-validation-for="EMail"></span>
+                    <span style="color:red;" asp-validation-for="EMail"></span>
                 </div>
 
                 <div class="field-wrap">
-                    <label asp-for="Password">Passwort<span class="req">*</span></label><br />
+                    <label asp-for="Password">Passwort *</label>
                     <input type="password" asp-for="Password" />
-                    <span asp-validation-for="Password"></span>
+                    <span style="color:red;" asp-validation-for="Password"></span>
                 </div>
 
                 <button class="button button-block">Einloggen</button>

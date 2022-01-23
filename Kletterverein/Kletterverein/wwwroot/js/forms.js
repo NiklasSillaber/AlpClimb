@@ -4,9 +4,7 @@
         label = $this.prev('label');
 
     if (e.type === 'keyup') {
-        if ($this.val() === '') {
-            label.removeClass('active highlight');
-        } else {
+        if ($this.val() !== '') {
             label.addClass('active highlight');
         }
     } else if (e.type === 'blur') {
@@ -41,3 +39,6 @@ $('.tab a').on('click', function (e) {
     $(target).fadeIn(600);
 
 });
+
+var today = new Date().toISOString().split('T')[0];
+document.getElementsByName("setTodaysDate")[0].setAttribute('max', today);
