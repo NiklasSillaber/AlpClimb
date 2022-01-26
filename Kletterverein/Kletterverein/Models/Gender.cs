@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 namespace Kletterverein.Models
 {
     public enum Gender {
-        male, female, notSepcified
+        notSepcified, male, female
     }
 }

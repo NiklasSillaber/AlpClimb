@@ -5,8 +5,6 @@
     Layout = "~/Views/Shared/_LayoutUser.cshtml";
 }
 
-<h1>Registrieren</h1>
-
 @*<form asp-controller="user" asp-action="registration" methode="post">
     <p>
         <label asp-for="Firstname">Vorname</label><br />
@@ -97,10 +95,9 @@
 
                 <div class="field-wrap">
                     <select style="padding: 5px; font-size: 22px; background: rgba(160, 179, 176, .25); color: #0eb3de; " class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" asp-for="Gender">
-                        <option selected>Geschlecht *</option>
-                        <option value="0">männlich</option>
-                        <option value="1">weiblich</option>
-                        <option value="2">nicht angegeben</option>
+                        <option value="0" selected>Geschlecht</option>
+                        <option value="1">männlich</option>
+                        <option value="2">weiblich</option>
                     </select>
                     <span style="color:red;" asp-validation-for="Gender"></span>
                 </div>

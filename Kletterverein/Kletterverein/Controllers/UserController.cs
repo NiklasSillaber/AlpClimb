@@ -1,11 +1,14 @@
 ﻿using Kletterverein.Models;
+using Kletterverein.Models.DB;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Data.Common;
 
 namespace Kletterverein.Controllers
 {
     public class UserController : Controller
     {
+        private IRepositoryUsers _rep = new RepositoryUsersDB();
         public IActionResult Index()
         {
             // Intsanz/Objekt von User erzeugen
@@ -20,6 +23,11 @@ namespace Kletterverein.Controllers
 
             //User an die View übergeben
             return View(user);
+        }
+
+        public IActionResult YourData()
+        {
+            return View();
         }
 
         [HttpGet]
@@ -45,10 +53,31 @@ namespace Kletterverein.Controllers
 
             //unser Formular wurde richtig ausgefüllt
             if (ModelState.IsValid) {
-                //TODO: Eingabedaten in einer DB speichern
+                try
+                {
+                    _rep.Connect();
+                    if (_rep.Insert(userDataFromForm))
+                    {
+                        //unsere Message View aufrufen
+                        return View("YourData");
+                    }
+                    else
+                    {
+                        //unsere Message View aufrufen
+                        return View("_Message", new Message("Registrierung", "Sie haben sich nicht erfolgreich registriert!", "Bitte versuchen Sie es später erneut!"));
+                    }
+                }
+                //DbException ... Basisklasse der Datenbank-Exceptions
+                catch (DbException)
+                {
+                    //unsere Message View aufrufen
+                    return View("_Message", new Message("Registrierung", "Datenbankfehler!", "Bitte versuchen Sie es später erneut!"));
+                }
 
-                //unsere Message View aufrufen
-                return View("_Message", new Message("Registrierung", "Sie haben sich erfolgreich Registriert!"));
+                finally
+                {
+                    _rep.Disconnect();
+                }
             }
 
             //Das Formular wurde nicht richtig ausgefüllt
@@ -108,7 +137,6 @@ namespace Kletterverein.Controllers
                 ModelState.AddModelError("Password", "Das Passwort muss mindestens 8 Zeichen lang sein!"); //Feld, Message
 
             }
-            //Gender
 
             //Birthdate
             if (u.Birthdate > DateTime.Now) {
@@ -117,9 +145,12 @@ namespace Kletterverein.Controllers
             
             //Email
             if (u.EMail == null) {
-                ModelState.AddModelError("EMail", "Bitte geben Sie eine Emailadresse ein"); //Feld, Message
+                ModelState.AddModelError("EMail", "Bitte geben Sie eine Emailadresse ein!"); //Feld, Message
             }
+
         }
+
+
 
         private void ValidateLoginData(User u)
         {
@@ -136,7 +167,7 @@ namespace Kletterverein.Controllers
 
             //Email
             if (u.EMail == null) {
-                ModelState.AddModelError("EMail", "Bitte geben Sie eine Emailadresse ein"); //Feld, Message
+                ModelState.AddModelError("EMail", "Bitte geben Sie eine Emailadresse ein!"); //Feld, Message
             }
         }
     }
