@@ -85,6 +85,12 @@ namespace Kletterverein.Controllers
             return View(userDataFromForm);
         }
 
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
         [HttpPost]
         public IActionResult Login(User userDataFromForm)
         {
@@ -92,7 +98,7 @@ namespace Kletterverein.Controllers
             if (userDataFromForm == null) {
                 //Weiterleitung an eine andere Action/Methode
                 //im selben Controller
-                return RedirectToAction("Login");
+                return RedirectToAction("Registration");
             }
 
             //Eingabedaten der Registrierung überprüfen - Validierung
@@ -100,15 +106,36 @@ namespace Kletterverein.Controllers
 
             //unser Formular wurde richtig ausgefüllt
             if (ModelState.IsValid) {
-                //TODO: Eingabedaten in DB überprüfen
+                try
+                {
+                    _rep.Connect();
+                    if (_rep.Login(userDataFromForm.EMail,userDataFromForm.Password))
+                    {
+                        //unsere Message View aufrufen
+                        return View("YourData");
+                    }
+                    else
+                    {
+                        //unsere Message View aufrufen
+                        return View("_Message", new Message("Login", "Sie haben sich nicht erfolgreich eingeloggt!", "Bitte versuchen Sie es später erneut!"));
+                    }
+                }
+                //DbException ... Basisklasse der Datenbank-Exceptions
+                catch (DbException)
+                {
+                    //unsere Message View aufrufen
+                    return View("_Message", new Message("Login", "Datenbankfehler!", "Bitte versuchen Sie es später erneut!"));
+                }
 
-                //unsere Message View aufrufen
-                return View("_Message", new Message("Login", "Sie haben sich erfolgreich Eingeloggt!"));
+                finally
+                {
+                    _rep.Disconnect();
+                }
             }
 
             //Das Formular wurde nicht richtig ausgefüllt
             //und die bereits eingegebenen Daten sollten wieder angezeigt werden
-            return View(userDataFromForm);
+            return View("Registration");
         }
 
         private void ValidateRegistrationData(User u)

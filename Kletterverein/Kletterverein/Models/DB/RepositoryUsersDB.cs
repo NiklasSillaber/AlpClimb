@@ -130,9 +130,36 @@ namespace Kletterverein.Models.DB
             return false;
         }
 
-        public bool Login(string username, string password)
+        public bool Login(string email, string password)
         {
-            throw new NotImplementedException();
+
+            if (this._conn?.State == ConnectionState.Open)
+            {
+                DbCommand cmdLogin = this._conn.CreateCommand();
+                cmdLogin.CommandText = "select * from users where email = @email and password = sha2(@password,512);";
+
+                DbParameter paramEM = cmdLogin.CreateParameter();
+                paramEM.ParameterName = "email";
+                paramEM.DbType = DbType.String;
+                paramEM.Value = email;
+
+                DbParameter paramPWD = cmdLogin.CreateParameter();
+                paramPWD.ParameterName = "password";
+                paramPWD.DbType = DbType.String;
+                paramPWD.Value = password;
+
+                cmdLogin.Parameters.Add(paramEM);
+                cmdLogin.Parameters.Add(paramPWD);
+
+                using (DbDataReader reader = cmdLogin.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return true;
+                    }
+                } 
+            }
+            return false;
         }
 
         public bool Update(int userId, User newUserData)
