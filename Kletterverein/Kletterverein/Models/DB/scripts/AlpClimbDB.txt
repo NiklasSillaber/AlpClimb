@@ -15,4 +15,4 @@ create table users(
 );
 
 insert into users values(null, "Daniel", "Unterwurzacher", sha2("alpClimb123!",512), "2004-05-18", "daniel@gmail.com", 1);
-insert into users values(null, "Niklas", "Sillaber", sha2("alpClimb123!",512), "2003-09-18", "niklas@gmail.com", 1);
+insert into users values(null, "Niklas", "Sillaber", sha2("alpClimb123!",512), "2003-09-18", "nsillaber@gmail.com", 1);
