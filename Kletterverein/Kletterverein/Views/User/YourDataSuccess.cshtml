@@ -1,0 +1,71 @@
+﻿@model Kletterverein.Models.User
+
+@{
+    ViewData["Title"] = "YourDataSuccess";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+
+<div style="margin-top:70px;" class="form">
+
+    <ul class="tab-group">
+        <li style="text-align:center;"><h2>ERFOLG!</h2></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="signup">
+
+
+            <form methode="get">
+                <div class="top-row">
+                    <div class="field-wrap">
+                        <div class="showData">@Model.Lastname</div>
+                    </div>
+
+                    <div class="field-wrap">
+                        <div class="showData">@Model.Firstname</div>
+                    </div>
+                </div>
+
+                <div class="field-wrap">
+                    <div class="showData">@Model.Birthdate.ToShortDateString()</div>
+                </div>
+
+                <div class="field-wrap">
+                    <div class="showData">@Model.EMail</div>
+                </div>
+
+                <div class="field-wrap">
+                    <div class="showData">@if (Model.Gender != 0)
+                    {@Model.Gender}</div>
+                </div>
+
+        </form>
+
+    </div>
+
+    <div id="login">
+        <h1>Willkommen zurück!</h1>
+
+        <form asp-controller="user" asp-action="login" methode="post">
+
+            <div class="field-wrap">
+                <label asp-for="EMail">Emailadresse *</label>
+                <input type="email" asp-for="EMail" />
+                <span style="color:red;" asp-validation-for="EMail"></span>
+            </div>
+
+            <div class="field-wrap">
+                <label asp-for="Password">Passwort *</label>
+                <input type="password" asp-for="Password" />
+                <span style="color:red;" asp-validation-for="Password"></span>
+            </div>
+
+            <button class="button button-block">Einloggen</button>
+
+        </form>
+
+    </div>
+    </div>
+</div>
+

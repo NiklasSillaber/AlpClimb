@@ -184,3 +184,12 @@ textarea {
     margin-top: -20px;
     text-align: right;
 }
+
+.showData {
+    position: relative;
+    transform: translateY(6px);
+    left: 13px;
+    color: rgba(255, 255, 255, .5);
+    transition: all 0.25s ease;
+    font-size: 22px;
+}

@@ -25,9 +25,11 @@ namespace Kletterverein.Controllers
             return View(user);
         }
 
+        [HttpGet]
         public IActionResult YourData()
         {
-            return View();
+            User sessionUser = HttpContext.Session.GetObject("userinfo");
+            return View(sessionUser);
         }
 
         [HttpGet]
@@ -59,7 +61,9 @@ namespace Kletterverein.Controllers
                     if (_rep.Insert(userDataFromForm))
                     {
                         //unsere Message View aufrufen
-                        return View("YourData");
+                        HttpContext.Session.Clear();
+                        HttpContext.Session.SetObject("userinfo", userDataFromForm);
+                        return View("YourDataSuccess", userDataFromForm);
                     }
                     else
                     {
@@ -85,10 +89,9 @@ namespace Kletterverein.Controllers
             return View(userDataFromForm);
         }
 
-        [HttpGet]
-        public IActionResult Login()
+        private void setUserSession(User userDataFromForm)
         {
-            return View();
+            throw new NotImplementedException();
         }
 
         [HttpPost]
@@ -112,7 +115,10 @@ namespace Kletterverein.Controllers
                     if (_rep.Login(userDataFromForm.EMail,userDataFromForm.Password))
                     {
                         //unsere Message View aufrufen
-                        return View("YourData");
+                        User a = _rep.GetUserWithEmail(userDataFromForm.EMail);
+                        HttpContext.Session.Clear();
+                        HttpContext.Session.SetObject("userinfo", a);
+                        return View("YourDataSuccess",a);
                     }
                     else
                     {
@@ -169,10 +175,30 @@ namespace Kletterverein.Controllers
             if (u.Birthdate > DateTime.Now) {
                 ModelState.AddModelError("Birthdate", "Das Geburtsdatum darf nicht in der Zukunft sein!"); //Feld, Message
             }
-            
+
             //Email
             if (u.EMail == null) {
                 ModelState.AddModelError("EMail", "Bitte geben Sie eine Emailadresse ein!"); //Feld, Message
+            }
+
+            try
+            {
+                _rep.Connect();
+                if (_rep.GetUserWithEmail(u.EMail) != null)
+                {
+                    ModelState.AddModelError("EMail", "Diese Email ist bereits registriert!"); //Feld, Message
+                }
+               
+            }
+            //DbException ... Basisklasse der Datenbank-Exceptions
+            catch (DbException)
+            {
+                ModelState.AddModelError("EMail", "Datenbankfehler - Bitte später erneut versuchen!"); //Feld, Message
+            }
+
+            finally
+            {
+                _rep.Disconnect();
             }
 
         }
@@ -199,3 +225,5 @@ namespace Kletterverein.Controllers
         }
     }
 }
+
+

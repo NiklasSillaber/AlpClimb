@@ -14,7 +14,7 @@ namespace Kletterverein.Models.DB
         bool Delete(int userId);
         bool Update(int userId, User newUserData);
         User GetUser(int userId);
-
+        User GetUserWithEmail(String email);
         bool Login(string username, string password);
     }
 }

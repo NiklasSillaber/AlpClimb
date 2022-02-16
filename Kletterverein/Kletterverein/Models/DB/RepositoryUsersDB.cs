@@ -56,25 +56,98 @@ namespace Kletterverein.Models.DB
 
         public User GetUser(int userId)
         {
+            User a;
+            if (this._conn?.State == ConnectionState.Open)
+            {
+                //leeres Command erzeugen
+                DbCommand cmdOneUser = this._conn.CreateCommand();
+                //SQL-Befehl angeben
+                cmdOneUser.CommandText = "select * from users where user_id = @userid";
 
-            //KEINE SCHLEIFE VERWENDEN
+
+                DbParameter paramUI = cmdOneUser.CreateParameter();
+                paramUI.ParameterName = "userid";
+                paramUI.DbType = DbType.Int32;
+                paramUI.Value = userId;
+
+                cmdOneUser.Parameters.Add(paramUI);
+
+                //mit dem DbDataReader kann zeilenweise durch das Ergebnis gegangen werden
+                using (DbDataReader reader = cmdOneUser.ExecuteReader())
+                {
+                    //Read() ... eine Zeile (Datensatz) lesen
+                    if (reader.Read())
+                    {
+
+                        reader.Read();
+                        //und dann der Liste hinzufügen
+                        a = new User()
+                        {
+                            //UserId ... Name des Properties der Klasse User
+                            //user_id ... Name des Feldes in der Db-Klasse
+                            UserId = Convert.ToInt32(reader["user_id"]),
+                            Firstname = Convert.ToString(reader["firstname"]),
+                            Lastname = Convert.ToString(reader["lastname"]),
+                            Password = Convert.ToString(reader["password"]),
+                            Birthdate = Convert.ToDateTime(reader["birthdate"]),
+                            EMail = Convert.ToString(reader["email"]),
+                            Gender = (Gender)Convert.ToInt32(reader["gender"])
+                        }; //DbNull.Value
+                        return a;
+                    }
+                } //hier wird der DbDataReader automatisch wieder freigegeben
+                  //hier wird die Methode Dispose() von DbDataReader aufgerufen
+                  //kurze Schreibweise für try ... finally
+            }
+
+            return null;
+        }
+
+        public User GetUserWithEmail(String email)
+        {
+            User a;
+            if (this._conn?.State == ConnectionState.Open)
+            {
+                //leeres Command erzeugen
+                DbCommand cmdOneUser = this._conn.CreateCommand();
+                //SQL-Befehl angeben
+                cmdOneUser.CommandText = "select * from users where email = @email";
 
 
-            //if (this._conn?.State == ConnectionState.Open)
-            //{
-            //    DbCommand cmdSelect = this._conn.CreateCommand();
-            //    cmdSelect.CommandText = "select * from users where user_id = @userid";
+                DbParameter paramEM = cmdOneUser.CreateParameter();
+                paramEM.ParameterName = "email";
+                paramEM.DbType = DbType.String;
+                paramEM.Value = email;
 
-            //    DbParameter paramUI = cmdSelect.CreateParameter();
-            //    paramUI.ParameterName = "userid";
-            //    paramUI.DbType = DbType.Int32;
-            //    paramUI.Value = userId;
+                cmdOneUser.Parameters.Add(paramEM);
 
-            //    User = new User();
+                //mit dem DbDataReader kann zeilenweise durch das Ergebnis gegangen werden
+                using (DbDataReader reader = cmdOneUser.ExecuteReader())
+                {
+                    //Read() ... eine Zeile (Datensatz) lesen
+                    if (reader.Read())
+                    {
 
-            //    return cmdSelect.ExecuteReader;
-
-            //}
+                        reader.Read();
+                        //und dann der Liste hinzufügen
+                        a = new User()
+                        {
+                            //UserId ... Name des Properties der Klasse User
+                            //user_id ... Name des Feldes in der Db-Klasse
+                            UserId = Convert.ToInt32(reader["user_id"]),
+                            Firstname = Convert.ToString(reader["firstname"]),
+                            Lastname = Convert.ToString(reader["lastname"]),
+                            Password = Convert.ToString(reader["password"]),
+                            Birthdate = Convert.ToDateTime(reader["birthdate"]),
+                            EMail = Convert.ToString(reader["email"]),
+                            Gender = (Gender)Convert.ToInt32(reader["gender"])
+                        }; //DbNull.Value
+                        return a;
+                    }
+                } //hier wird der DbDataReader automatisch wieder freigegeben
+                  //hier wird die Methode Dispose() von DbDataReader aufgerufen
+                  //kurze Schreibweise für try ... finally
+            }
 
             return null;
         }
