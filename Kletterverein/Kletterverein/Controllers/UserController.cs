@@ -9,20 +9,11 @@ namespace Kletterverein.Controllers
     public class UserController : Controller
     {
         private IRepositoryUsers _rep = new RepositoryUsersDB();
+        bool isLogin = false;
         public IActionResult Index()
         {
-            // Intsanz/Objekt von User erzeugen
-            //Objektinitialisierersyntax
-            User user = new User()
-            {
-                UserId = 100,
-                Firstname = "Daniel",
-                Lastname = "Daniel",
-                Password = "Sesam123"
-            };
-
             //User an die View übergeben
-            return View(user);
+            return View();
         }
 
         [HttpGet]
@@ -31,6 +22,71 @@ namespace Kletterverein.Controllers
             User sessionUser = HttpContext.Session.GetObject("userinfo");
             return View(sessionUser);
         }
+
+        [HttpPost]
+        public IActionResult YourData(User UserDataUpdated)
+        {
+            User sessionUser = HttpContext.Session.GetObject("userinfo");
+            UserDataUpdated.UserId = sessionUser.UserId;
+            UserDataUpdated.Password = sessionUser.Password;
+            HttpContext.Session.Clear();
+            try
+            {
+                _rep.Connect();
+                if (_rep.Update(UserDataUpdated.UserId, UserDataUpdated))
+                {
+                    return RedirectToAction("Registration");
+                }
+                else
+                {
+                    //unsere Message View aufrufen
+                    return View("_Message", new Message("Ändern", "Etwas hat leider nicht geklappt!", "Bitte versuchen Sie es später erneut!"));
+                }
+            }
+            //DbException ... Basisklasse der Datenbank-Exceptions
+            catch (DbException)
+            {
+                //unsere Message View aufrufen
+                return View("_Message", new Message("Ändern", "Datenbankfehler!", "Bitte versuchen Sie es später erneut!"));
+            }
+
+            finally
+            {
+                _rep.Disconnect();
+            }
+        }
+
+        public IActionResult YourData_Delete()
+        {
+            User sessionUser = HttpContext.Session.GetObject("userinfo");
+            HttpContext.Session.Clear();
+            try
+            {
+                _rep.Connect();
+                if (_rep.Delete(sessionUser.UserId))
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    //unsere Message View aufrufen
+                    return View("_Message", new Message("Löschen", "Ihr Profil konnte nicht gelöscht werden!", "Bitte versuchen Sie es später erneut!"));
+                }
+            }
+            //DbException ... Basisklasse der Datenbank-Exceptions
+            catch (DbException)
+            {
+                //unsere Message View aufrufen
+                return View("_Message", new Message("Löschen", "Datenbankfehler!", "Bitte versuchen Sie es später erneut!"));
+            }
+
+            finally
+            {
+                _rep.Disconnect();
+            }
+            
+        }
+
 
         [HttpGet]
         public IActionResult Registration()
@@ -41,12 +97,13 @@ namespace Kletterverein.Controllers
         [HttpPost]
         public IActionResult Registration(User userDataFromForm)
         {
-
+            isLogin = false;
+            ViewBag.IsLogin = isLogin;
             //Parameter überprüfen
             if (userDataFromForm == null)
             {
                 //Weiterleitung an eine andere Action/Methode
-                //im selben Controller
+                //im selben Controller 
                 return RedirectToAction("Registration");
             }
 
@@ -67,8 +124,7 @@ namespace Kletterverein.Controllers
                     }
                     else
                     {
-                        //unsere Message View aufrufen
-                        return View("_Message", new Message("Registrierung", "Sie haben sich nicht erfolgreich registriert!", "Bitte versuchen Sie es später erneut!"));
+                        return RedirectToAction("Registration");                    
                     }
                 }
                 //DbException ... Basisklasse der Datenbank-Exceptions
@@ -89,18 +145,16 @@ namespace Kletterverein.Controllers
             return View(userDataFromForm);
         }
 
-        private void setUserSession(User userDataFromForm)
-        {
-            throw new NotImplementedException();
-        }
-
         [HttpPost]
         public IActionResult Login(User userDataFromForm)
         {
+            
             //Parameter überprüfen
             if (userDataFromForm == null) {
                 //Weiterleitung an eine andere Action/Methode
                 //im selben Controller
+                isLogin = true;
+                ViewBag.IsLogin = isLogin;
                 return RedirectToAction("Registration");
             }
 
@@ -122,8 +176,9 @@ namespace Kletterverein.Controllers
                     }
                     else
                     {
-                        //unsere Message View aufrufen
-                        return View("_Message", new Message("Login", "Sie haben sich nicht erfolgreich eingeloggt!", "Bitte versuchen Sie es später erneut!"));
+                        isLogin = true;
+                        ViewBag.IsLogin = isLogin;
+                        return RedirectToAction("Registration");
                     }
                 }
                 //DbException ... Basisklasse der Datenbank-Exceptions
@@ -141,6 +196,8 @@ namespace Kletterverein.Controllers
 
             //Das Formular wurde nicht richtig ausgefüllt
             //und die bereits eingegebenen Daten sollten wieder angezeigt werden
+            isLogin = true;
+            ViewBag.IsLogin = isLogin;
             return View("Registration");
         }
 

@@ -1,7 +1,8 @@
 ﻿$('.form').find('input, textarea').on('keyup blur focus', function (e) {
 
     var $this = $(this),
-        label = $this.prev('label');
+        label = $this.prev('label'),
+        span = $this.prev('span');
 
     if (e.type === 'keyup') {
         if ($this.val() !== '') {
@@ -22,7 +23,6 @@
             label.addClass('highlight');
         }
     }
-
 });
 
 $('.tab a').on('click', function (e) {

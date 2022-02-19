@@ -92,20 +92,17 @@ label {
     font-size: 22px;
 }
 
-    label .req {
-        margin: 2px;
-        color: #0eb3de;
-    }
+    
 
     label.active {
+        display: none;
+    }
+
+    label.birthday {
         transform: translateY(50px);
         left: 2px;
         font-size: 14px;
     }
-
-        label.active .req {
-            opacity: 0;
-        }
 
     label.highlight {
         color: #fff;
@@ -185,11 +182,11 @@ textarea {
     text-align: right;
 }
 
-.showData {
-    position: relative;
-    transform: translateY(6px);
+.showData{
+    position:relative;
+    transform:translateY(6px);
     left: 13px;
-    color: rgba(255, 255, 255, .5);
+    color: rgba(255,255,255, .5);
     transition: all 0.25s ease;
     font-size: 22px;
 }

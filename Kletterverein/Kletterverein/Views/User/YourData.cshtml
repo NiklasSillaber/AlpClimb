@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "YourData";
-    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+    Layout = "~/Views/Shared/_LayoutUserLoggedIn.cshtml";
 }
 
 <h1 style="margin-top:20px;">Deine Daten</h1>
@@ -11,75 +11,126 @@
 
     <ul class="tab-group">
         <li class="tab"><a href="#signup"><i class="fas fa-edit"></i></a></li>
-        <li class="tab"><a href="#login"><i class="fas fa-trash-alt"></i></a></li>
+        <li class="tab"><a href="#" data-toggle="modal" data-target="#exampleModalCenter"><i class="fas fa-trash-alt"></i></a></li>
     </ul>
 
+
+
     <div class="tab-content">
-        <div id="signup">
-            
-
+        <div class="tab active" id="startpage">
             <form methode="get">
-
-                @if(Model == null)
-            {
-
-
+                <div class="top-row">
                     <div class="field-wrap">
-                        <div style="left:-3px;" class="showData">Bitte zuerst einloggen oder registrieren!</div>
-                    </div>
-               
-
-            }
-            else {
-                    <div class="top-row">
-                        <div class="field-wrap">
-                            <div class="showData">@Model.Lastname</div>
-                        </div>
-
-                        <div class="field-wrap">
-                            <div class="showData">@Model.Firstname</div>
-                        </div>
+                        <div class="showData">@Model.Lastname</div>
                     </div>
 
                     <div class="field-wrap">
-                        <div class="showData">@Model.Birthdate.ToShortDateString()</div>
+                        <div class="showData">@Model.Firstname</div>
                     </div>
-
-                    <div class="field-wrap">
-                        <div class="showData">@Model.EMail</div>
-                    </div>
-
-                    <div class="field-wrap">
-                        <div class="showData">@if(Model.Gender != 0){@Model.Gender}</div>
-                    </div>
-                }
-</form>
-               
-        </div>
-
-        <div id="login">
-            <h1>Willkommen zurück!</h1>
-
-            <form asp-controller="user" asp-action="login" methode="post">
+                </div>
 
                 <div class="field-wrap">
-                    <label asp-for="EMail">Emailadresse *</label>
-                    <input type="email" asp-for="EMail" />
+                    <div class="showData">@Model.Birthdate.ToShortDateString()</div>
+                </div>
+
+                <div class="field-wrap">
+                    <div class="showData">@Model.EMail</div>
+                </div>
+
+                <div class="field-wrap">
+                    <div class="showData">
+                        @if (Model.Gender != 0)
+                        {@Model.Gender}
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        
+        <div id="signup">
+            <form asp-controller="user" asp-action="yourdata" methode="post">
+
+                <div class="top-row">
+                    <div class="field-wrap">
+                        <input placeholder="@Model.Lastname" type="text" asp-for="Lastname" />
+                        <span style="color:red;" asp-validation-for="Lastname"></span>
+                    </div>
+
+                    <div class="field-wrap">
+                        <input placeholder="@Model.Firstname" type="text" asp-for="Firstname" />
+                        <span style="color:red;" asp-validation-for="Firstname"></span>
+                    </div>
+                </div>
+
+                <div class="field-wrap">
+                    <input placeholder="@Model.Birthdate.ToShortDateString()" type="date" asp-for="Birthdate" />
+                    <span style="color:red;" asp-validation-for="Birthdate"></span>
+                </div>
+
+                <div class="field-wrap">
+                    <input placeholder="@Model.EMail" type="email" asp-for="EMail" />
                     <span style="color:red;" asp-validation-for="EMail"></span>
                 </div>
 
                 <div class="field-wrap">
-                    <label asp-for="Password">Passwort *</label>
-                    <input type="password" asp-for="Password" />
-                    <span style="color:red;" asp-validation-for="Password"></span>
+                    <select style="padding: 5px; font-size: 22px; background: rgba(160, 179, 176, .25); color: #0eb3de; " class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" asp-for="Gender">
+                        @switch (((int)Model.Gender))
+                        {
+                            case 0:
+                                <option value="0" selected>Geschlecht</option>
+                                <option value="1">männlich</option>
+                                <option value="2">weiblich</option>
+                                break;
+
+                            case 1:
+                                <option value="0">Geschlecht</option>
+                                <option value="1" selected>männlich</option>
+                                <option value="2">weiblich</option>
+                                break;
+
+                            case 2:
+                                <option value="0">Geschlecht</option>
+                                <option value="1">männlich</option>
+                                <option value="2" selected>weiblich</option>
+                                break;
+                        }
+                    </select>
+                    <span style="color:red;" asp-validation-for="Gender"></span>
                 </div>
 
-                <button class="button button-block">Einloggen</button>
+                <button type="submit" class="button button-block">Ändern</button>
 
             </form>
 
+
         </div>
+
+
 
     </div>
 
+
+
+</div>
+
+
+<!-- Pop Up -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Benutzer löschen</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Wollen Sie ihr Benutzerkonto wirklich löschen?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                    <a class="btn btn-primary" asp-controller="user" asp-action="yourdata_delete">Löschen</a>
+            </div>
+        </div>
+    </div>
 </div>
