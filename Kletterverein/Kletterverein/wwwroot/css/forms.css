@@ -92,8 +92,6 @@ label {
     font-size: 22px;
 }
 
-    
-
     label.active {
         display: none;
     }

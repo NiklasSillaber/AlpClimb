@@ -27,5 +27,10 @@ namespace Kletterverein.Models
         public string EMail { get; set; }
 
         public Gender Gender { get; set; }
+
+        public String toString() {
+            return this._userId + " " + this.Firstname + " " + this.Lastname + " " + this.Password + " " + this.Birthdate + " " + this.EMail +
+                " " + this.Gender;
+        }
     }
 }

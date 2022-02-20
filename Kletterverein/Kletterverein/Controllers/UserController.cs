@@ -121,6 +121,7 @@ namespace Kletterverein.Controllers
                         HttpContext.Session.Clear();
                         HttpContext.Session.SetObject("userinfo", userDataFromForm);
                         return View("YourDataSuccess", userDataFromForm);
+
                     }
                     else
                     {

@@ -240,7 +240,7 @@ namespace Kletterverein.Models.DB
             if (this._conn?.State == ConnectionState.Open)
             {
                 DbCommand cmdUpdate = this._conn.CreateCommand();
-                cmdUpdate.CommandText = "update users set firstname = @firstname, lastname = @lastname, password = @password," +
+                cmdUpdate.CommandText = "update users set firstname = @firstname, lastname = @lastname, password = sha2(@password, 512)," +
                    "birthdate = @birthdate, email = @email, gender = @gender where user_id = @userid;";
 
                 DbParameter paramFN = cmdUpdate.CreateParameter();
@@ -274,9 +274,9 @@ namespace Kletterverein.Models.DB
                 paramG.Value = newUserData.Gender;
 
                 DbParameter paramUID = cmdUpdate.CreateParameter();
-                paramG.ParameterName = "userid";
-                paramG.DbType = DbType.Int32;
-                paramG.Value = newUserData.UserId;
+                paramUID.ParameterName = "userid";
+                paramUID.DbType = DbType.Int32;
+                paramUID.Value = newUserData.UserId;
 
                 cmdUpdate.Parameters.Add(paramFN);
                 cmdUpdate.Parameters.Add(paramLN);
