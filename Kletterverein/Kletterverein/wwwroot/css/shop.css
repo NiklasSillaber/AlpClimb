@@ -1,0 +1,150 @@
+﻿@import url('https://fonts.googleapis.com/css?family=Poppins:100,300,400,500,600,700,800, 800i, 900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+
+.wrapper {
+    position: relative;
+}
+
+    .wrapper .card {
+        position: relative;
+        width: 320px;
+        height: 450px;
+        background: #232323;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+        .wrapper .card:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1BBFE9;
+            clip-path: circle(150px at 80% 20%);
+            transition: 0.5s ease-in-out;
+        }
+
+        .wrapper .card:hover:before {
+            clip-path: circle(300px at 80% -20%);
+        }
+
+        .wrapper .card:after {
+            content: "Nike";
+            position: absolute;
+            top: 30%;
+            left: -20%;
+            font-size: 12em;
+            font-weight: 800;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.04);
+        }
+
+        .wrapper .card .imgBx {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            width: 100%;
+            height: 100%;
+            transition: .5s;
+        }
+
+        .wrapper .card:hover .imgBx {
+            top: 0%;
+            transform: translateY(-25%);
+        }
+
+        .wrapper .card .imgBx img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(20deg);
+            width: 270px;
+        }
+
+        .wrapper .card .contentBx {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100px;
+            text-align: center;
+            transition: 1s;
+            z-index: 90;
+        }
+
+        .wrapper .card:hover .contentBx {
+            height: 210px;
+        }
+
+        .wrapper .card .contentBx h2 {
+            position: relative;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #fff;
+        }
+
+        .wrapper .card .contentBx .description,
+        .wrapper .card .contentBx .color {
+            
+            justify-content: center;
+            align-items: center;
+            padding: 8px 20px;
+            transition: .5s;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .wrapper .card:hover .contentBx .description {
+            opacity: 1;
+            visibility: visible;
+            transition-delay: .5s;
+            text-align: center;
+            color: white;
+        }
+
+        .wrapper .card:hover .contentBx .color {
+            opacity: 1;
+            visibility: visible;
+            transition-delay: .6s;
+        }
+
+        .wrapper .card .contentBx .description h3,
+        .wrapper .card .contentBx .color h3 {
+            color: white;
+            font-weight: 300;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-right: 10px;
+        }
+
+            
+
+        .wrapper .card .contentBx a {
+            
+            padding: 10px 20px;
+            background: #fff;
+            border-radius: 4px;
+            margin-top: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            color: #111;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: .5s;
+        }
+
+        .wrapper .card:hover .contentBx a {
+            opacity: 1;
+            transform: translateY(0px);
+            transition-delay: .7s;
+        }

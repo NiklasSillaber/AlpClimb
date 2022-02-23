@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Kletterverein</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/introStyle.css" />
+    <link rel="stylesheet" href="~/css/rightMenueStyle.css" />
+    <link rel="stylesheet" href="~/css/footer.css" />
+    <link rel="stylesheet" href="~/css/mainNavbar.css" />
+    <link rel="stylesheet" href="~/css/forms.css" />
+    <link rel="stylesheet" href="~/css/hoverEffects.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
+
+    <style>
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <container>
+        <header>
+            <partial name="MainNavBar" />
+        </header>
+        <main>
+            <div class="aside">
+                <center>
+                    <br />
+                    <br />
+                    <ul class="sideUl">
+                        <li><a href="/shop/index">Index</a></li>
+                        <li><a href="/">Meine Artikel</a></li>
+                    </ul>
+                </center>
+            </div>
+            <content style="background-image: repeating-linear-gradient(to top right, #1b90bb, #1b90bb 10%, #5d9cb1 10%, #5d9cb1 20%); ">
+                <div id="mainContent">
+                    @RenderBody()
+                </div>
+
+                <div style="position:absolute; float:right;" id="mySidenav" class="sidenav">
+                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                    <a class="head" href="#" style="font-weight:bold; cursor:default;">NEWS</a>
+                    <a class="link" href="#" style="padding-left: 25%;">Services</a>
+                    <a class="link" href="#" style="padding-left: 25%;">Clients</a>
+                    <a class="link" href="#" style="padding-left: 25%;">Contact</a>
+                </div>
+            </content>
+            @*<aside>
+                    Seitenbereich
+                </aside>*@
+        </main>
+        <footer>
+            <partial name="Footer" />
+        </footer>
+    </container>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/rightMenue.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/forms.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

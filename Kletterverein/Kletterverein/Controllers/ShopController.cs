@@ -13,11 +13,7 @@ namespace Kletterverein.Controllers
             return View();
         }
 
-        public IActionResult SearchArticles()
-        {
-            return View();
-        }
-        public IActionResult AllArticles()
+        public IActionResult myArticles()
         {
             return View();
         }
