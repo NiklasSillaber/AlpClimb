@@ -152,6 +152,55 @@ namespace Kletterverein.Models.DB
             return null;
         }
 
+        public int GetUserIdWithEmail(String email)
+        {
+            User a;
+            if (this._conn?.State == ConnectionState.Open)
+            {
+                //leeres Command erzeugen
+                DbCommand cmdOneUser = this._conn.CreateCommand();
+                //SQL-Befehl angeben
+                cmdOneUser.CommandText = "select * from users where email = @email";
+
+
+                DbParameter paramEM = cmdOneUser.CreateParameter();
+                paramEM.ParameterName = "email";
+                paramEM.DbType = DbType.String;
+                paramEM.Value = email;
+
+                cmdOneUser.Parameters.Add(paramEM);
+
+                //mit dem DbDataReader kann zeilenweise durch das Ergebnis gegangen werden
+                using (DbDataReader reader = cmdOneUser.ExecuteReader())
+                {
+                    //Read() ... eine Zeile (Datensatz) lesen
+                    if (reader.Read())
+                    {
+
+                        reader.Read();
+                        //und dann der Liste hinzufügen
+                        a = new User()
+                        {
+                            //UserId ... Name des Properties der Klasse User
+                            //user_id ... Name des Feldes in der Db-Klasse
+                            UserId = Convert.ToInt32(reader["user_id"]),
+                            Firstname = Convert.ToString(reader["firstname"]),
+                            Lastname = Convert.ToString(reader["lastname"]),
+                            Password = Convert.ToString(reader["password"]),
+                            Birthdate = Convert.ToDateTime(reader["birthdate"]),
+                            EMail = Convert.ToString(reader["email"]),
+                            Gender = (Gender)Convert.ToInt32(reader["gender"])
+                        }; //DbNull.Value
+                        return a.UserId;
+                    }
+                } //hier wird der DbDataReader automatisch wieder freigegeben
+                  //hier wird die Methode Dispose() von DbDataReader aufgerufen
+                  //kurze Schreibweise für try ... finally
+            }
+
+            return 0;
+        }
+
         public bool Insert(User user)
         {
             if (this._conn?.State == ConnectionState.Open)
@@ -235,12 +284,13 @@ namespace Kletterverein.Models.DB
             return false;
         }
 
-        public bool Update(int userId, User newUserData)
+        //Verschlüsselungsstring wird verändert wenn man nicht das gleiche Passwort nimmt
+        public bool Update(User newUserData)
         {
             if (this._conn?.State == ConnectionState.Open)
             {
                 DbCommand cmdUpdate = this._conn.CreateCommand();
-                cmdUpdate.CommandText = "update users set firstname = @firstname, lastname = @lastname, password = sha2(@password, 512)," +
+                cmdUpdate.CommandText = "update users set firstname = @firstname, lastname = @lastname," +
                    "birthdate = @birthdate, email = @email, gender = @gender where user_id = @userid;";
 
                 DbParameter paramFN = cmdUpdate.CreateParameter();
@@ -252,11 +302,6 @@ namespace Kletterverein.Models.DB
                 paramLN.ParameterName = "lastname";
                 paramLN.DbType = DbType.String;
                 paramLN.Value = newUserData.Lastname;
-
-                DbParameter paramPWD = cmdUpdate.CreateParameter();
-                paramPWD.ParameterName = "password";
-                paramPWD.DbType = DbType.String;
-                paramPWD.Value = newUserData.Password;
 
                 DbParameter paramBD = cmdUpdate.CreateParameter();
                 paramBD.ParameterName = "birthdate";
@@ -280,7 +325,6 @@ namespace Kletterverein.Models.DB
 
                 cmdUpdate.Parameters.Add(paramFN);
                 cmdUpdate.Parameters.Add(paramLN);
-                cmdUpdate.Parameters.Add(paramPWD);
                 cmdUpdate.Parameters.Add(paramBD);
                 cmdUpdate.Parameters.Add(paramEM);
                 cmdUpdate.Parameters.Add(paramG);

@@ -12,6 +12,12 @@ namespace Kletterverein.Controllers
         bool isLogin = false;
         public IActionResult Index()
         {
+            User a = HttpContext.Session.GetObject("userinfo");
+
+            if (a != null)
+            {
+                return RedirectToAction("YourData");
+            }
             //User an die View übergeben
             return View();
         }
@@ -28,12 +34,12 @@ namespace Kletterverein.Controllers
         {
             User sessionUser = HttpContext.Session.GetObject("userinfo");
             UserDataUpdated.UserId = sessionUser.UserId;
-            UserDataUpdated.Password = sessionUser.Password;
+            UserDataUpdated.EMail = sessionUser.EMail;
             HttpContext.Session.Clear();
             try
             {
                 _rep.Connect();
-                if (_rep.Update(UserDataUpdated.UserId, UserDataUpdated))
+                if (_rep.Update(UserDataUpdated))
                 {
                     return RedirectToAction("Registration");
                 }
@@ -117,6 +123,8 @@ namespace Kletterverein.Controllers
                     _rep.Connect();
                     if (_rep.Insert(userDataFromForm))
                     {
+
+                        userDataFromForm.UserId = _rep.GetUserIdWithEmail(userDataFromForm.EMail);
                         //unsere Message View aufrufen
                         HttpContext.Session.Clear();
                         HttpContext.Session.SetObject("userinfo", userDataFromForm);
