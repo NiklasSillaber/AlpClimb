@@ -1,17 +1,18 @@
 ﻿
 
 .sidenav {
+    margin-bottom:20%;
     border-top-left-radius: 18px;
     border-bottom-left-radius: 18px;
     width: 0;
-    position: absolute;
+    position: relative;
     z-index: 1;
     right: 0;
     background-color: #0eb3de;
     overflow-x: hidden;
     transition: 0.5s;
-    padding-top: 60px;
-    min-height: 600px;
+    padding-top: 30px;
+    min-height: 300px;
 }
 
     .sidenav .head {
