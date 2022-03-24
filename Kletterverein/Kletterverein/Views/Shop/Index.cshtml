@@ -1,10 +1,8 @@
-﻿
+﻿@model List<Kletterverein.Models.Product>
+
 @{
     ViewData["Title"] = "Index";
-
     Layout = "~/Views/Shared/_LayoutShop.cshtml";
-
-
 }
 
 <!DOCTYPE html>
@@ -38,7 +36,9 @@
                @for (int j = 1; j <= 3; j++) {
 
                    <td>
-                       <partial name="productCard">
+                       @foreach(Product p in Model) {
+                        <partial name="productCard" data="@p"/>
+                        }
                    </td>
                 }
             </tr>             

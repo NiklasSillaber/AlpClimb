@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Kletterverein.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,14 @@ namespace Kletterverein.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            //Alle Producte aus der DB lesen und mitgeben
+
+            Product pTest1 = new Product(1, "Mein SChuhe", "Toll", Brand.Nike, 110.3m);
+
+            List<Product> myProducts = new List<Product>();
+            myProducts.Add(pTest1);
+
+            return View(myProducts);
         }
 
         public IActionResult myArticles()
