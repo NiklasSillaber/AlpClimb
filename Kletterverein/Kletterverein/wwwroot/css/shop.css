@@ -6,6 +6,17 @@
     font-family: 'Poppins', sans-serif;
 }
 
+table {
+    width: 100%;
+}
+
+th, td {
+    text-align: center;
+    padding-top: 100px;
+    padding-right: 0px;
+    padding-left: 110px;
+}
+
 .wrapper {
     /*position: relative;*/
 }
