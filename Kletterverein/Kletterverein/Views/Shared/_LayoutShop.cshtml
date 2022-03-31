@@ -45,9 +45,7 @@
                 </center>
             </div>
             <content style="background-image: repeating-linear-gradient(to top right, #1b90bb, #1b90bb 10%, #5d9cb1 10%, #5d9cb1 20%); overflow-y: scroll">
-                <div id="mainContent">
-                    @RenderBody()
-                </div>
+
 
                 <div style="position:absolute; float:right;" id="mySidenav" class="sidenav">
                     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -55,6 +53,9 @@
                     <a class="link" href="#" style="padding-left: 25%;">Services</a>
                     <a class="link" href="#" style="padding-left: 25%;">Clients</a>
                     <a class="link" href="#" style="padding-left: 25%;">Contact</a>
+                </div>
+                <div id="mainContent">
+                    @RenderBody()
                 </div>
             </content>
             @*<aside>
