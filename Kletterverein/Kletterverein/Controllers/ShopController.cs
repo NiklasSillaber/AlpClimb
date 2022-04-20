@@ -14,7 +14,7 @@ namespace Kletterverein.Controllers
             //Alle Producte aus der DB lesen und mitgeben
 
             Product pTest1 = new Product(1, "SCHU", "Toll", Brand.Nike, 110.3m);
-            Product pTest2 = new Product(2, "Deine Shu", "sad", Brand.Nike, 100.3m);
+            Product pTest2 = new Product(2, "Deine Shu", "sad", Brand.Nike, 39.3m);
             Product pTest3 = new Product(3, "Mein SChuhe", "Toll", Brand.Nike, 110.3m);
             Product pTest4 = new Product(4, "Deine Shu", "sad", Brand.Nike, 100.3m);
             Product pTest5 = new Product(5, "Mein SChuhe", "Toll", Brand.Nike, 110.3m);

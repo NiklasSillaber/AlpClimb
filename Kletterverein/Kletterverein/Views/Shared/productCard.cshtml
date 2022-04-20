@@ -1,22 +1,20 @@
 ﻿@model Kletterverein.Models.Product
 
-<div class="wrapper">
+<div class="cont">
     <div class="card">
         <div class="imgBx">
             <img src="http://pngimg.com/uploads/running_shoes/running_shoes_PNG5782.png" alt="nike-air-shoe">
         </div>
 
         <div class="contentBx">
-
-            <h2>@Model.Productname</h2>
-
-            <div class="description">
-                <h3>Description</h3>
-                <p>@Model.Description</p>
+            <h2></h2>
+            <div class="price">
+                <h3>Preis : @Model.Price€</h3>
             </div>
-
-            <a href="#">Buy Now</a>
+            <br>
+            <a class="buy" href="#">
+                Jetzt kaufen
+            </a>
         </div>
-
     </div>
 </div>

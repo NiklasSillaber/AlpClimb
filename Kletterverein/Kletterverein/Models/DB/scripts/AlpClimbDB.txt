@@ -18,3 +18,24 @@ insert into users values(null, "Daniel", "Unterwurzacher", sha2("alpClimb123!",5
 insert into users values(null, "Niklas", "Sillaber", sha2("alpClimb123!",512), "2003-09-18", "nsillaber@gmail.com", 1);
 
 alter table users add UNIQUE(email);
+
+create table product(
+	product_id INT PRIMARY KEY not null auto_increment,
+	productname VARCHAR(255) not null,
+	price DECIMAL(10, 2) not null,
+	description VARCHAR(255) not null,
+	brand ENUM ('Nike', 'Adidas', 'Mamut', 'Chillaz', 'noNameBrand', 'notSpecified')
+);
+
+create table purchase(
+	order_id INT PRIMARY KEY not null auto_increment,
+	user_id int unsigned not null,
+	product_id int unsigned not null,
+	constraint fk_purchase FOREIGN KEY(user_id) references users(user_id)
+);
+
+alter table purchase 
+product_id INT FOREIGN KEY REFERENCES product(product_id)
+
+constraint fk_purchase FOREIGN KEY(user_id) references users(user_id)
+	
