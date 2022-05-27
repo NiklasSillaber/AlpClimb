@@ -39,7 +39,7 @@ namespace Kletterverein.Controllers
             return View(myProducts);
         }
 
-        public IActionResult myArticles()
+        public IActionResult ShoppingCart()
         {
             return View();
         }

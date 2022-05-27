@@ -19,12 +19,15 @@
 
     <style>
         ::-webkit-scrollbar {
-           display:none;
+            display: none;
         }
+
         html {
             scroll-behavior: smooth;
         }
     </style>
+
+  
 </head>
 <body>
 
@@ -53,29 +56,30 @@
             </div>
             <content style="background-image: url(../img/mountain2.jpeg); background-position: center;">
                 <div style="position:relative; float:right;" id="mySidenav" class="sidenav">
-                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                    <a class="head" href="#" style="font-weight:bold; cursor:default;">NEWS</a>
-                    <a class="link" href="#" style="padding-left: 25%;">Services</a>
-                    <a class="link" href="#" style="padding-left: 25%;">Clients</a>
-                    <a class="link" href="#" style="padding-left: 25%;">Contact</a>
+
+                    <a href="javascript:void(0)" class="closebtn" onclick="getData(); closeNav();">&times;</a>
+                    <a class="head" href="#" style="font-weight:bold; cursor:default;">Wetter</a>
+                    <div id="showWeather" style="padding-left: 10%;">
+                        
+                    </div>
                 </div>
                 <div onclick="contact()" id="mainContent">
 
-                    
+
                     @RenderBody()
                 </div>
 
-                
+
             </content>
             @*<aside>
-            Seitenbereich
-        </aside>*@
+                    Seitenbereich
+                </aside>*@
         </main>
         <footer id="contact">
             <partial name="Footer" />
         </footer>
     </container>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/rightMenue.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

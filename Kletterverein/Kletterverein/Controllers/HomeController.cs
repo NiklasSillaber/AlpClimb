@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kletterverein.Controllers
 {
+    //TEST
     public class HomeController : Controller
     {
         public IActionResult Index()
