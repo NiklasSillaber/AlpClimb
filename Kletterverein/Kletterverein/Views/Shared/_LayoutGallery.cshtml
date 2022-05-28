@@ -15,18 +15,17 @@
     <link rel="stylesheet" href="~/css/footer.css" />
     <link rel="stylesheet" href="~/css/mainNavbar.css" />
     <link rel="stylesheet" href="~/css/hoverEffects.css" />
+    <link rel="stylesheet" href="~/css/gallery.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
     <style>
+
         ::-webkit-scrollbar {
-           display:none;
+            display: none;
         }
+
         html {
             scroll-behavior: smooth;
-        }
-        .img {
-            max-height: 500px;
-            object-fit: contain;
         }
     </style>
 </head>
@@ -37,7 +36,7 @@
             <partial name="MainNavBar" />
         </header>
         <main>
-            
+
             <content style="background-color: black; background-position: center; overflow-y:hidden">
 
 
@@ -53,8 +52,8 @@
                 </div>
             </content>
             @*<aside>
-            Seitenbereich
-        </aside>*@
+                    Seitenbereich
+                </aside>*@
         </main>
         <footer id="contact">
             <partial name="Footer" />
@@ -65,6 +64,7 @@
     <script src="~/js/rightMenue.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/gallery.js" asp-append-version="true"></script>
     <script src="~/js/introScript.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
