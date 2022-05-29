@@ -93,7 +93,8 @@ namespace Kletterverein.Models.DB
 
                     while (reader.Read()) {
 
-                        products.Add(new Product() {
+                        products.Add(new Product()
+                        {
                             ProductId = Convert.ToInt32(reader["product_id"]),
                             Productname = Convert.ToString(reader["productname"]),
                             Description = Convert.ToString(reader["description"]),

@@ -21,7 +21,7 @@ create table product(
 	productname VARCHAR(255) not null,
 	price DECIMAL(10, 2) not null,
 	description VARCHAR(255) not null,
-	brand ENUM ('Nike', 'Adidas', 'Mamut', 'Chillaz', 'noNameBrand', 'notSpecified')
+	brand int not null
 );
 
 insert into product values(null, "Schuhe", 100.30, "cool", "Nike");
