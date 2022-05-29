@@ -25,6 +25,11 @@ create table product(
 );
 
 insert into product values(null, "Schuhe", 100.30, "cool", "Nike");
+insert into product values(null, "Karabiner", 100.30, "cool", "Nike");
+insert into product values(null, "Hose", 100.30, "cool", "Nike");
+insert into product values(null, "Seil", 100.30, "cool", "Nike");
+insert into product values(null, "Hammer", 100.30, "cool", "Nike");
+insert into product values(null, "Pickel", 100.30, "cool", "Nike");
 
 create table cart(
 	cart_id int primary key auto_increment,
@@ -35,8 +40,3 @@ create table cart(
 
 alter table cart add foreign key(user_id) references users (user_id);
 alter table cart add foreign key(product_id) references product (product_id);
-
-insert into cart values(null, 1, 1);
-
-
- select productname from product as p join cart as c on (p.product_id = c.product_id) join users as u on (c.user_id = u.user_id) where u.user_id = 2;

@@ -1,7 +1,9 @@
 ﻿using Kletterverein.Models;
+using Kletterverein.Models.DB;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,39 +11,130 @@ namespace Kletterverein.Controllers
 {
     public class ShopController : Controller
     {
+        private IRepositoryShop _rep = new RepositoryShopDB();
+
+        public static bool registrationOnShopping = false;
+        public static bool duringAddToCart = false;
+        public static int productIdAddToCart = 0;
+
+        [HttpGet]
         public IActionResult Index()
         {
             //Alle Producte aus der DB lesen und mitgeben
+            try
+            {
+                _rep.Connect();
 
-            Product pTest1 = new Product(1, "SCHU", "Toll", Brand.Nike, 110.3m);
-            Product pTest2 = new Product(2, "Deine Shu", "sad", Brand.Nike, 39.3m);
-            Product pTest3 = new Product(3, "Mein SChuhe", "Toll", Brand.Nike, 110.3m);
-            Product pTest4 = new Product(4, "Deine Shu", "sad", Brand.Nike, 100.3m);
-            Product pTest5 = new Product(5, "Mein SChuhe", "Toll", Brand.Nike, 110.3m);
-            Product pTest6 = new Product(6, "Deine Shu", "sad", Brand.Nike, 100.3m);
-            Product pTest7 = new Product(7, "Mein SChuhe", "Toll", Brand.Nike, 110.3m);
-            Product pTest8 = new Product(8, "Deine Shu", "sad", Brand.Nike, 100.3m);
-            Product pTest9 = new Product(9, "Mein SChuhe", "Toll", Brand.Nike, 110.3m);
-            Product pTest10 = new Product(10, "Deine Shu", "sad", Brand.Nike, 100.3m);
+                return View(_rep.GetProducts());
+            }
+            catch (DbException)
+            {
+                return View("_Message", new Message("Shop", "Datenbankfehler", "Bitte versuchen sie es später erneut!"));
 
-            List<Product> myProducts = new List<Product>();
-            myProducts.Add(pTest1);
-            myProducts.Add(pTest2);
-            myProducts.Add(pTest3);
-            myProducts.Add(pTest4);
-            myProducts.Add(pTest5);
-            myProducts.Add(pTest6);
-            myProducts.Add(pTest7);
-            myProducts.Add(pTest8);
-            myProducts.Add(pTest9);
-            myProducts.Add(pTest10);
-
-            return View(myProducts);
+            }
+            finally
+            {
+                _rep.Disconnect();
+            }
         }
 
-        public IActionResult ShoppingCart()
+        [HttpGet]
+        public IActionResult AddToCart()
         {
-            return View();
+            try
+            {
+                _rep.Connect();
+
+                User a = HttpContext.Session.GetObject("userinfo");
+
+                if (a != null)
+                {
+                    bool c = _rep.addProductToCart(a.UserId, productIdAddToCart);
+                    return RedirectToAction("MyArticles");
+                }
+
+                return RedirectToAction("Registration", "User");
+
+
+            }
+            catch (DbException)
+            {
+
+                return View("_Message", new Message("AddToCart", "Datenbankfehler!", "Bitte versuchen Sie es später erneut!"));
+
+            }
+            finally
+            {
+                _rep.Disconnect();
+            }
         }
+
+        [HttpPost]
+        public IActionResult AddToCart(Product p)
+        {
+            try
+            {
+                _rep.Connect();
+
+                User a = HttpContext.Session.GetObject("userinfo");
+
+                if(a != null)
+                {
+                    bool c = _rep.addProductToCart(a.UserId, p.ProductId);
+                    return RedirectToAction("MyArticles");
+                }
+                
+                duringAddToCart = true;
+                productIdAddToCart = p.ProductId;
+                return RedirectToAction("Registration","User");
+
+
+            }
+            catch (DbException)
+            {
+
+                return View("_Message", new Message("AddToCart", "Datenbankfehler!", "Bitte versuchen Sie es später erneut!"));
+
+            }
+            finally
+            {
+                _rep.Disconnect();
+            }
+        }
+
+        [HttpGet]
+        public IActionResult MyArticles()
+        {
+            try
+            {
+                _rep.Connect();
+
+                User a = HttpContext.Session.GetObject("userinfo");
+
+                if (a != null)
+                {
+                    List<Product> prodList = _rep.getProductsOfCart(a.UserId);
+                    return View(prodList);
+                }
+
+                registrationOnShopping = true;
+                return RedirectToAction("Registration","User");
+            }
+            catch (DbException)
+            {
+                return View("_Message", new Message("AddToCart", "Datenbankfehler!", "Bitte versuchen Sie es später erneut!"));
+            }
+            finally
+            {
+                _rep.Disconnect();
+            }
+            
+                
+        }
+
+        //public IActionResult DeleteFromCart()
+        //{
+
+        //}
     }
 }

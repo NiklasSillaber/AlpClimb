@@ -115,6 +115,16 @@ namespace Kletterverein.Controllers
                         userDataFromForm.UserId = _rep.GetUserIdWithEmail(userDataFromForm.EMail);
                         HttpContext.Session.Clear();
                         HttpContext.Session.SetObject("userinfo", userDataFromForm);
+                        if (ShopController.registrationOnShopping)
+                        {
+                            ShopController.registrationOnShopping = false;
+                            return RedirectToAction("MyArticles","Shop");
+                        }
+                        if (ShopController.duringAddToCart)
+                        {
+                            ShopController.duringAddToCart = false;
+                            return RedirectToAction("AddToCart", "Shop");
+                        }
                         return View("YourDataSuccess", userDataFromForm);
 
                     }
@@ -158,6 +168,16 @@ namespace Kletterverein.Controllers
                         User a = _rep.GetUserWithEmail(userDataFromForm.EMail);
                         HttpContext.Session.Clear();
                         HttpContext.Session.SetObject("userinfo", a);
+                        if (ShopController.registrationOnShopping)
+                        {
+                            ShopController.registrationOnShopping = false;
+                            return RedirectToAction("MyArticles", "Shop");
+                        }
+                        if (ShopController.duringAddToCart)
+                        {
+                            ShopController.duringAddToCart = false;
+                            return RedirectToAction("AddToCart", "Shop");
+                        }
                         return View("YourDataSuccess",a);
                     }
                     else

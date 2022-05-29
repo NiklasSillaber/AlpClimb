@@ -1,20 +1,23 @@
 ﻿@model Kletterverein.Models.Product
 
-<div class="cont">
-    <div class="card">
-        <div class="imgBx">
-            <img src="http://pngimg.com/uploads/running_shoes/running_shoes_PNG5782.png" alt="nike-air-shoe">
+<form asp-controller="shop" asp-action="addToCart" methode="post">
+    <div class="pCard">
+
+        <div class="pImg">
+            <img src="~/img/shoes.png" />
         </div>
 
-        <div class="contentBx">
-            <h2></h2>
-            <div class="price">
-                <h3>Preis : @Model.Price€</h3>
-            </div>
-            <br>
-            <a class="buy" href="#">
-                Jetzt kaufen
-            </a>
-        </div>
+        <h2 class="pName">@Model.Productname</h2>
+
+        <input style="visibility:hidden;" type="text" asp-for="ProductId" value="@Model.ProductId" />
+
+        <button class="buy">Jetzt kaufen</button>
+
+        @*<button id="btnAddToCart" class="buy">
+            Jetzt kaufen
+        </button>
+        <div id="ProductId" style="visibility:hidden">@Model.ProductId</div>*@
+
     </div>
-</div>
+</form>
+
