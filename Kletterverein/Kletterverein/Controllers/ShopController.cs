@@ -13,6 +13,7 @@ namespace Kletterverein.Controllers
     {
         private IRepositoryShop _rep = new RepositoryShopDB();
 
+        //für die Weiterleitung zur Anmeldung wenn man etwas kaufen möchte und noch nicht angemeldet ist
         public static bool registrationOnShopping = false;
         public static bool duringAddToCart = false;
         public static int productIdAddToCart = 0;
@@ -132,9 +133,28 @@ namespace Kletterverein.Controllers
                 
         }
 
-        //public IActionResult DeleteFromCart()
-        //{
+        public IActionResult DeleteFromCart(int prodId)
+        {
+            try
+            {
+                _rep.Connect();
 
-        //}
+                User a = HttpContext.Session.GetObject("userinfo");
+
+                bool result = _rep.deleteProductFromCart(a.UserId,prodId);
+                
+                return RedirectToAction("MyArticles");
+
+            }
+            catch (DbException)
+            {
+                return View("_Message", new Message("DeleteFromCart", "Datenbankfehler!", "Bitte versuchen Sie es später erneut!"));
+            }
+            finally
+            {
+                _rep.Disconnect();
+            }
+            
+        }
     }
 }

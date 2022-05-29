@@ -21,6 +21,12 @@ namespace Kletterverein.Controllers
             return View();
         }
 
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index");
+        }
+
         [HttpGet]
         public IActionResult YourData()
         {
@@ -114,7 +120,9 @@ namespace Kletterverein.Controllers
 
                         userDataFromForm.UserId = _rep.GetUserIdWithEmail(userDataFromForm.EMail);
                         HttpContext.Session.Clear();
+
                         HttpContext.Session.SetObject("userinfo", userDataFromForm);
+                        //für die Weiterleitung zur Anmeldung wenn man etwas kaufen möchte und noch nicht angemeldet ist
                         if (ShopController.registrationOnShopping)
                         {
                             ShopController.registrationOnShopping = false;
@@ -168,6 +176,8 @@ namespace Kletterverein.Controllers
                         User a = _rep.GetUserWithEmail(userDataFromForm.EMail);
                         HttpContext.Session.Clear();
                         HttpContext.Session.SetObject("userinfo", a);
+
+                        //für die Weiterleitung zur Anmeldung wenn man etwas kaufen möchte und noch nicht angemeldet ist
                         if (ShopController.registrationOnShopping)
                         {
                             ShopController.registrationOnShopping = false;
