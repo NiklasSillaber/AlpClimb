@@ -16,7 +16,7 @@
     position: relative;
     margin: auto;
     margin-top: 5%;
-    height: 350px;
+    height: 500px;
 }
 
 .i {
@@ -24,7 +24,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    max-height: 350px;
+    max-height: 500px;
 }
 
 /* The dots/bullets/indicators */
