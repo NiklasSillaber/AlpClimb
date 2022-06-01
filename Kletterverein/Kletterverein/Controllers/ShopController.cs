@@ -50,8 +50,13 @@ namespace Kletterverein.Controllers
 
                 if (a != null)
                 {
-                    bool c = _rep.addProductToCart(a.UserId, productIdAddToCart);
-                    return RedirectToAction("MyArticles");
+                    if(_rep.addProductToCart(a.UserId, productIdAddToCart)) {
+                        return RedirectToAction("MyArticles");
+                    }
+                    else {
+                        return View("_Message", new Message("AddToCart", "Datenbankfehler!", "Bitte versuchen Sie es später erneut!"));
+                    }
+
                 }
 
                 return RedirectToAction("Registration", "User");
@@ -83,7 +88,7 @@ namespace Kletterverein.Controllers
                 
                 duringAddToCart = true;
                 productIdAddToCart = p.ProductId;
-                return RedirectToAction("Registration","User");
+                return RedirectToAction("Registration", "User");
 
 
             }

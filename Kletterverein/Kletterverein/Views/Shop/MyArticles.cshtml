@@ -4,7 +4,7 @@
     ViewData["Title"] = "ShoppingCart";
     Layout = "~/Views/Shared/_LayoutShop.cshtml";
 }
-
+<br />
 <h1>Mein Warenkorb</h1>
 
 @if (Model != null)
@@ -13,12 +13,16 @@
 <table class="cart" id="cartList">
     <tbody class="articles">
     <th>Produktname</th>
+    <th>Marke</th>
     <th>Preis</th>
     <th>Löschen</th>
 
     @foreach (Product p in Model) {
-        <tr class="article">
+        <tr class="article" id="currentArticle">
             <partial name="productInCart" model="@p" />
+        </tr>
+        <tr>
+            <td class="productDescription">@p.Description</td>
         </tr>
     }
     </tbody>

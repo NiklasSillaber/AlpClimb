@@ -5,6 +5,12 @@
     
 }
 
+.cart:hover {
+    width: 51%;
+    height:21%;
+    transition: .3s
+}
+
 .article {
     height: 60px;
     background-color: #3c3e4a;
@@ -13,4 +19,8 @@
 .articles {
     background-color: #232323;
     color: white;
+}
+
+.productDescription {
+    display: none;
 }
