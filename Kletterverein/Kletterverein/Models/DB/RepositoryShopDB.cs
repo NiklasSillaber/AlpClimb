@@ -13,24 +13,24 @@ namespace Kletterverein.Models.DB
         private string _connectionString = "Server=localhost;database=alpclimb;user=root;password=";
         private DbConnection _conn;
 
-        public void Connect()
+        public async Task ConnectAsync()
         {
             if (this._conn == null) {
                 this._conn = new MySqlConnection(this._connectionString);
             }
             if (this._conn.State != ConnectionState.Open) {
-                this._conn.Open();
+                await this._conn.OpenAsync();
             }
         }
 
-        public void Disconnect()
+        public async Task DisconnectAsync()
         {
             if ((this._conn != null) && (this._conn.State == ConnectionState.Open)) {
-                this._conn.Close();
+                await this._conn.CloseAsync();
             }
         }
 
-        public bool addProductToCart(int userId, int productId)
+        public async Task<bool> addProductToCartAsync(int userId, int productId)
         {
             if (this._conn?.State == ConnectionState.Open) {
                 DbCommand cmdInsert = this._conn.CreateCommand();
@@ -49,13 +49,13 @@ namespace Kletterverein.Models.DB
                 cmdInsert.Parameters.Add(paramUId);
                 cmdInsert.Parameters.Add(paramPId);
                 
-                return cmdInsert.ExecuteNonQuery() == 1;
+                return await cmdInsert.ExecuteNonQueryAsync() == 1;
             }
 
             return false;
         }
 
-        public bool deleteProductFromCart(int userId, int productId)
+        public async Task<bool> deleteProductFromCartAsync(int userId, int productId)
         {
             if (this._conn?.State == ConnectionState.Open) {
                 DbCommand cmdDelete = this._conn.CreateCommand();
@@ -74,13 +74,13 @@ namespace Kletterverein.Models.DB
                 cmdDelete.Parameters.Add(paramUId);
                 cmdDelete.Parameters.Add(paramPId);
 
-                return cmdDelete.ExecuteNonQuery() == 1;
+                return await cmdDelete.ExecuteNonQueryAsync() == 1;
             }
 
             return false;
         }
 
-        public List<Product> GetProducts()
+        public async Task<List<Product>> GetProductsAsync()
         {
             List<Product> products = new List<Product>();
 
@@ -89,9 +89,9 @@ namespace Kletterverein.Models.DB
                 DbCommand cmdProducts = this._conn.CreateCommand();
                 cmdProducts.CommandText = "select * from product";
 
-                using (DbDataReader reader = cmdProducts.ExecuteReader()) {
+                using (DbDataReader reader = await cmdProducts.ExecuteReaderAsync()) {
 
-                    while (reader.Read()) {
+                    while (await reader.ReadAsync()) {
 
                         products.Add(new Product()
                         {
@@ -107,7 +107,7 @@ namespace Kletterverein.Models.DB
             return products;
         }
 
-        public List<Product> getProductsOfCart(int userId)
+        public async Task<List<Product>> getProductsOfCartAsync(int userId)
         {
             List<Product> products = new List<Product>();
 
@@ -125,9 +125,9 @@ namespace Kletterverein.Models.DB
 
                 cmdProducts.Parameters.Add(paramUId);
 
-                using (DbDataReader reader = cmdProducts.ExecuteReader()) {
+                using (DbDataReader reader = await cmdProducts.ExecuteReaderAsync()) {
 
-                    while (reader.Read()) {
+                    while (await reader.ReadAsync()) {
 
                         products.Add(new Product() {
                             ProductId = Convert.ToInt32(reader["product_id"]),
@@ -140,6 +140,40 @@ namespace Kletterverein.Models.DB
                 }
             }
             return products;
+        }
+
+        public async Task<bool> productAlreadyInCartAsync(int userId, int productId)
+        {
+
+            if (this._conn?.State == ConnectionState.Open) {
+
+                DbCommand cmdProducts = this._conn.CreateCommand();
+                cmdProducts.CommandText = "select p.product_id " +
+                    "from product as p join cart as c on (p.product_id = c.product_id) " +
+                    "join users as u on (c.user_id = u.user_id) " +
+                    "where u.user_id = @userId and p.product_id = @productId";
+
+                DbParameter paramUId = cmdProducts.CreateParameter();
+                paramUId.ParameterName = "userId";
+                paramUId.DbType = DbType.Int32;
+                paramUId.Value = userId;
+                
+                DbParameter paramPId = cmdProducts.CreateParameter();
+                paramPId.ParameterName = "productId";
+                paramPId.DbType = DbType.Int32;
+                paramPId.Value = productId;
+
+                cmdProducts.Parameters.Add(paramUId);
+                cmdProducts.Parameters.Add(paramPId);
+
+                using (DbDataReader reader = await cmdProducts.ExecuteReaderAsync()) {
+
+                    if (await reader.ReadAsync()) {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 }

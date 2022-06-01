@@ -19,14 +19,14 @@ namespace Kletterverein.Controllers
         public static int productIdAddToCart = 0;
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             //Alle Producte aus der DB lesen und mitgeben
             try
             {
-                _rep.Connect();
+                await _rep.ConnectAsync();
 
-                return View(_rep.GetProducts());
+                return View(await _rep.GetProductsAsync());
             }
             catch (DbException)
             {
@@ -35,27 +35,31 @@ namespace Kletterverein.Controllers
             }
             finally
             {
-                _rep.Disconnect();
+                await _rep.DisconnectAsync();
             }
         }
 
         [HttpGet]
-        public IActionResult AddToCart()
+        public async Task<IActionResult> AddToCart()
         {
             try
             {
-                _rep.Connect();
+                await _rep.ConnectAsync();
 
                 User a = HttpContext.Session.GetObject("userinfo");
 
                 if (a != null)
                 {
-                    if(_rep.addProductToCart(a.UserId, productIdAddToCart)) {
-                        return RedirectToAction("MyArticles");
+                    if(!await _rep.productAlreadyInCartAsync(a.UserId, productIdAddToCart)) {
+                        if (await _rep.addProductToCartAsync(a.UserId, productIdAddToCart)) {
+                            return RedirectToAction("MyArticles");
+                        } else {
+                            return View("_Message", new Message("AddToCart", "Datenbankfehler!", "Bitte versuchen Sie es später erneut!"));
+                        }
+                    } else {
+                        return View("_Message", new Message("Produkt hinzufügen", "Datenbankfehler!", "Produkt ist schon im Warenkorb!"));
                     }
-                    else {
-                        return View("_Message", new Message("AddToCart", "Datenbankfehler!", "Bitte versuchen Sie es später erneut!"));
-                    }
+
 
                 }
 
@@ -67,23 +71,34 @@ namespace Kletterverein.Controllers
             }
             finally
             {
-                _rep.Disconnect();
+                await _rep.DisconnectAsync();
             }
         }
 
         [HttpPost]
-        public IActionResult AddToCart(Product p)
+        public async Task<IActionResult> AddToCart(Product p)
         {
             try
             {
-                _rep.Connect();
+                await _rep.ConnectAsync();
 
                 User a = HttpContext.Session.GetObject("userinfo");
 
                 if(a != null)
                 {
-                    bool c = _rep.addProductToCart(a.UserId, p.ProductId);
-                    return RedirectToAction("MyArticles");
+                    if(!await _rep.productAlreadyInCartAsync(a.UserId, p.ProductId)) {
+                        if (await _rep.addProductToCartAsync(a.UserId, p.ProductId)) {
+                            return RedirectToAction("MyArticles");
+                        }
+                        else {
+                            return View("_Message", new Message("AddToCart", "Datenbankfehler!", "Bitte versuchen Sie es später erneut!"));
+                        }
+                        
+                    }
+                    else {
+                        return View("_Message", new Message("Produkt hinzufügen", "Datenbankfehler!", "Produkt ist schon im Warenkorb!"));
+                    }
+                    
                 }
                 
                 duringAddToCart = true;
@@ -100,22 +115,22 @@ namespace Kletterverein.Controllers
             }
             finally
             {
-                _rep.Disconnect();
+                await _rep.DisconnectAsync();
             }
         }
 
         [HttpGet]
-        public IActionResult MyArticles()
+        public async Task<IActionResult> MyArticles()
         {
             try
             {
-                _rep.Connect();
+                await _rep.ConnectAsync();
 
                 User a = HttpContext.Session.GetObject("userinfo");
 
                 if (a != null)
                 {
-                    List<Product> prodList = _rep.getProductsOfCart(a.UserId);
+                    List<Product> prodList = await _rep.getProductsOfCartAsync(a.UserId);
                     return View(prodList);
                 }
 
@@ -128,21 +143,21 @@ namespace Kletterverein.Controllers
             }
             finally
             {
-                _rep.Disconnect();
+                await _rep.DisconnectAsync();
             }
             
                 
         }
 
-        public IActionResult DeleteFromCart(int prodId)
+        public async Task<IActionResult> DeleteFromCart(int prodId)
         {
             try
             {
-                _rep.Connect();
+                await _rep.ConnectAsync();
 
                 User a = HttpContext.Session.GetObject("userinfo");
 
-                bool result = _rep.deleteProductFromCart(a.UserId,prodId);
+                bool result = await _rep.deleteProductFromCartAsync(a.UserId,prodId);
                 
                 return RedirectToAction("MyArticles");
 
@@ -153,7 +168,7 @@ namespace Kletterverein.Controllers
             }
             finally
             {
-                _rep.Disconnect();
+                await _rep.DisconnectAsync();
             }
             
         }

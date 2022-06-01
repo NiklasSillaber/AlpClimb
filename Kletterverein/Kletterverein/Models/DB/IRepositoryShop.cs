@@ -5,16 +5,13 @@ using System.Threading.Tasks;
 
 namespace Kletterverein.Models.DB {
     interface IRepositoryShop {
-        void Connect();
-        void Disconnect();
-
-        //bool Insert(User user);
-        //bool Delete(int userId);
-        //bool Update(User newUserData);
-        List<Product> GetProducts();
-        bool addProductToCart(int userId, int productId);
-        bool deleteProductFromCart(int userId, int productId);
-        List<Product> getProductsOfCart(int userId);
+        Task ConnectAsync();
+        Task DisconnectAsync();
+        Task<List<Product>> GetProductsAsync();
+        Task<bool> addProductToCartAsync(int userId, int productId);
+        Task<bool> deleteProductFromCartAsync(int userId, int productId);
+        Task<List<Product>> getProductsOfCartAsync(int userId);
+        Task<bool> productAlreadyInCartAsync(int userId, int productId);
 
     }
 }
