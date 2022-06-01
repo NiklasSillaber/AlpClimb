@@ -6,7 +6,7 @@
 }
 
 <div style="width: 100%; height: 100%; margin-bottom: 5%;">
-    <table>
+    <table class="shop">
         @foreach (Product p in Model)
         {
             @if (Model.IndexOf(p) % 3 == 0)
@@ -14,7 +14,7 @@
                 @Html.Raw("<tr>")
             }
 
-            <td>
+            <td class="singleProduct">
                 <partial name="productCard" model="@p" />
             </td>
 

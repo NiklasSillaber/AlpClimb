@@ -1,0 +1,16 @@
+﻿.cart {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+
+.article {
+    height: 60px;
+    background-color: #3c3e4a;
+}
+
+.articles {
+    background-color: #232323;
+    color: white;
+}

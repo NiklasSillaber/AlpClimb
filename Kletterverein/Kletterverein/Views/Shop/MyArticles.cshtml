@@ -7,16 +7,32 @@
 
 <h1>Mein Warenkorb</h1>
 
-
 @if (Model != null)
-{
-    <table>
-        @foreach (Product p in Model)
-        {
-        <tr>
-            <td>@p.Productname</td>
-            <td><a href="@Url.Action("deleteFromCart","shop", new { prodId = p.ProductId })"><i class="fa fa-trash"></i></a></td>
+ {
+
+<table class="cart" id="cartList">
+    <tbody class="articles">
+    <th>Produktname</th>
+    <th>Preis</th>
+    <th>Löschen</th>
+
+    @foreach (Product p in Model) {
+        <tr class="article">
+            <partial name="productInCart" model="@p" />
         </tr>
-        }
-    </table>
-}
+    }
+    </tbody>
+</table>
+
+
+ } else {
+    <p>keine Produkte vorhanden</p>            
+ }
+
+<br />
+<center>
+    <button id="btnToggle">
+        Mini-/Maximieren
+    </button>
+</center>
+

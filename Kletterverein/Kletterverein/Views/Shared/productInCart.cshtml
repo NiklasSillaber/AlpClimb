@@ -1,0 +1,7 @@
+﻿@model Kletterverein.Models.Product
+
+
+<td>@Model.Productname</td>
+<td>@Model.Price</td>
+<td><a href="@Url.Action("deleteFromCart","shop", new { prodId = Model.ProductId })"><i class="fa fa-trash"></i></a></td>
+

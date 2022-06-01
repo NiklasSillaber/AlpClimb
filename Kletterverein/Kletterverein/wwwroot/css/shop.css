@@ -3,11 +3,11 @@
     margin: 0;
 }
 
-table {
+.shop {
     width: 100%;
 }
 
-th, td {
+.singleProduct {
     text-align: center;
     padding-top: 100px;
     padding-right: 70px;
@@ -19,7 +19,6 @@ th, td {
 .pCard {
     background-color: #232323;
     padding-bottom: 40px;
-
     border-radius: 45px;
     border-left: 25px solid transparent;
 }

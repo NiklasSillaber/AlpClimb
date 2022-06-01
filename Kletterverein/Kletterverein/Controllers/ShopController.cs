@@ -55,14 +55,10 @@ namespace Kletterverein.Controllers
                 }
 
                 return RedirectToAction("Registration", "User");
-
-
             }
             catch (DbException)
             {
-
                 return View("_Message", new Message("AddToCart", "Datenbankfehler!", "Bitte versuchen Sie es später erneut!"));
-
             }
             finally
             {
