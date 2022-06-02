@@ -24,19 +24,19 @@ create table product(
 	brand int not null
 );
 
-insert into product values(null, "Schuhe", 100.30, "cool", "Nike");
-insert into product values(null, "Karabiner", 100.30, "cool", "Nike");
-insert into product values(null, "Hose", 100.30, "cool", "Nike");
-insert into product values(null, "Seil", 100.30, "cool", "Nike");
-insert into product values(null, "Hammer", 100.30, "cool", "Nike");
-insert into product values(null, "Pickel", 100.30, "cool", "Nike");
+insert into product values(null, "Schuhe", 100.30, "cool", "1");
+insert into product values(null, "Karabiner", 100.30, "cool", "2");
+insert into product values(null, "Hose", 100.30, "cool", "3");
+insert into product values(null, "Seil", 100.30, "cool", "2");
+insert into product values(null, "Hammer", 100.30, "cool", "1");
+insert into product values(null, "Pickel", 100.30, "cool", "2");
 
 create table cart(
 	cart_id int primary key auto_increment,
 	user_id int not null,
 	product_id int not null,
-	unique(user_id, product_id));
-)
+	unique(user_id, product_id)
+);
 
 alter table cart add foreign key(user_id) references users (user_id);
 alter table cart add foreign key(product_id) references product (product_id);
