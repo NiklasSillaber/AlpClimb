@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 namespace Kletterverein.Models.DB
 {
     public class RepositoryUsersDB : IRepositoryUsers
-    {
-        private string _connectionString = "Server=localhost;database=alpClimb;user=root;password=";
+    {   
+        //Verbindung zu gehosteter DB von remoteMysql.com
+        private string _connectionString = "Server=remotemysql.com;database=KJ8WTvDY9Y;user=KJ8WTvDY9Y;password=BVdseHMrTJ";
         private DbConnection _conn;
 
         public void Connect()

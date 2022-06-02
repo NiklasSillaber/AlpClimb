@@ -10,7 +10,8 @@ namespace Kletterverein.Models.DB
 {
     public class RepositoryShopDB : IRepositoryShop {
 
-        private string _connectionString = "Server=localhost;database=alpclimb;user=root;password=";
+        //Verbindung zu gehosteter DB von remoteMysql.com
+        private string _connectionString = "Server=remotemysql.com;database=KJ8WTvDY9Y;user=KJ8WTvDY9Y;password=BVdseHMrTJ";
         private DbConnection _conn;
 
         public async Task ConnectAsync()
